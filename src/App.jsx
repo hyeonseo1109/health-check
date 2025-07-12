@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { BPChart } from './graph';
+import { BpChart, BstChart, BwChart } from './graph';
 import './App.css'
 
 function App() {
@@ -14,8 +14,10 @@ function App() {
   
 
   return (
-    <div  className='flex flex-col bg-[#e3ebff] shadow-[0_0_10px_#adbce1] p-5 rounded-[15px] w-[80%]' >
-      <BPChart data={list} />
+    <div  className='flex flex-col bg-[#e3ebff] shadow-[0_0_10px_#adbce1] p-5 rounded-[15px] w-[80%] itmes-center' >
+      <BpChart data={list} /> <div className='w-full h-[1px] bg-black m-[40px_0]'/>
+      <BstChart data={list} /> <div className='w-full h-[1px] bg-black m-[40px_0]'/>
+      <BwChart data={list} />
       {list.map((el => 
       <div key={el._id} className='m-[15px_0]'>
         <div className='border border-b-0 m-[0_auto] w-[80%] rounded-t-[15px]'>
@@ -24,7 +26,7 @@ function App() {
         <div className='border m-[0_auto] w-[80%] rounded-b-[15px]'>
           혈압: {el.bp} <br/>
           혈당: {el.bst} <br/>
-          비만도: {( el.bw / ((el.ht / 100) ** 2)).toFixed(2)}
+          키/체중: {el.ht}/{el.bw} (비만도: {( el.bw / ((el.ht / 100) ** 2)).toFixed(2)})
         </div>
       </div>
     ))}
