@@ -21,17 +21,21 @@ export const BpChart = ({ data }) => {
     }
 
     return (
-        <ResponsiveContainer width="80%" height={200}>
-            <LineChart data={chartData} margin={{ top: 10, right: 20, bottom: 5, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis domain={[minDiastolic, maxSystolic]} ticks={ticks} />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="systolic" stroke="#f64c4c" name="수축기혈압" label={{ position: 'top', fontSize: 10, fill: '#555' }}/>
-                <Line type="monotone" dataKey="diastolic" stroke="#4089e1" name="이완기혈압" label={{ position: 'top', fontSize: 10, fill: '#555' }}/>
-            </LineChart>
-        </ResponsiveContainer>
+        <div className='w-full flex justify-center'>
+            <ResponsiveContainer width="80%" height={200}>
+                <LineChart data={chartData} margin={{ top: 10, right: 20, bottom: 5, left: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date"
+                            tick={{ fontSize: 15}}
+                    />
+                    <YAxis domain={[minDiastolic, maxSystolic]} ticks={ticks} />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="systolic" stroke="#f64c4c" name="수축기혈압" label={{ position: 'top', fontSize: 10, fill: '#555' }}/>
+                    <Line type="monotone" dataKey="diastolic" stroke="#4089e1" name="이완기혈압" label={{ position: 'top', fontSize: 10, fill: '#555' }}/>
+                </LineChart>
+            </ResponsiveContainer>
+        </div>
     );
 };
 
@@ -58,16 +62,20 @@ export const BstChart = ({ data }) => {
     }
 
     return (
-        <ResponsiveContainer width="80%" height={200}>
-            <LineChart data={chartData} margin={{ top: 10, right: 20, bottom: 5, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis domain={[minBst, maxBst]} ticks={ticks} />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="bst" stroke="#259600" name="혈당" label={{ position: 'top', fontSize: 10, fill: '#555' }}/>
-            </LineChart>
-        </ResponsiveContainer>
+        <div className='w-full flex justify-center'>
+            <ResponsiveContainer width="80%" height={200}>
+                <LineChart data={chartData} margin={{ top: 10, right: 20, bottom: 5, left: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date"
+                            tick={{ fontSize: 15}}
+                    />
+                    <YAxis domain={[minBst, maxBst]} ticks={ticks} />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="bst" stroke="#259600" name="혈당" label={{ position: 'top', fontSize: 10, fill: '#555' }}/>
+                </LineChart>
+            </ResponsiveContainer>
+        </div>
     );
 };
 
@@ -91,15 +99,19 @@ export const BwChart = ({ data }) => {
     }
 
     return (
-        <ResponsiveContainer width="80%" height={200}>
-            <LineChart data={chartData} margin={{ top: 10, right: 20, bottom: 5, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis domain={[minBw, maxBw]} ticks={ticks} />
-                <Tooltip />
-                <Legend />
-                <Line type="monotone" dataKey="bw" stroke="#c92de4" name="체중" label={{ position: 'top', fontSize: 10, fill: '#555' }}/>
-            </LineChart>
-        </ResponsiveContainer>
+        <div className='w-full flex justify-center'>
+            <ResponsiveContainer width="80%" height={200}>
+                <LineChart data={chartData} margin={{ top: 10, right: 20, bottom: 5, left: 0 }}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" 
+                            tick={{ fontSize: 15}}
+                    />
+                    <YAxis domain={[minBw, maxBw]} ticks={ticks} />
+                    <Tooltip />
+                    <Legend />
+                    <Line type="monotone" dataKey="bw" stroke="#c92de4" name="체중" label={{ position: 'top', fontSize: 10, fill: '#555' }}/>
+                </LineChart>
+            </ResponsiveContainer>
+        </div>
     );
 };

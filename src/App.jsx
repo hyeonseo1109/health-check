@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { BpChart, BstChart, BwChart } from './graph';
-import './App.css'
+import './App.css';
+import { twMerge } from 'tailwind-merge';
+
 
 function App() {
   const [list, setList] = useState([]);
@@ -14,22 +16,43 @@ function App() {
   
 
   return (
-    <div  className='flex flex-col bg-[#e3ebff] shadow-[0_0_10px_#adbce1] p-5 rounded-[15px] w-[80%] itmes-center' >
+    <div  className='flex flex-col bg-[#e3ebff] shadow-[0_0_15px_#adbce1] p-5 rounded-[15px] w-[80%] itmes-center' >
       <BpChart data={list} /> <div className='w-full h-[1px] bg-black m-[40px_0]'/>
       <BstChart data={list} /> <div className='w-full h-[1px] bg-black m-[40px_0]'/>
       <BwChart data={list} />
-      {list.map((el => 
+      {list.map((el => {
+      const [sbp, dbp] = el.bp.split('/').map(Number);
+      const bmi = ( el.bw / ((el.ht / 100) ** 2)).toFixed(2);
+      return (
       <div key={el._id} className='m-[15px_0]'>
-        <div className='border border-b-0 m-[0_auto] w-[80%] rounded-t-[15px]'>
+        <div className='border border-b-0 m-[0_auto] w-[80%] rounded-t-[15px] bg-[#bfccef] '>
           {el.date}
         </div>
-        <div className='border m-[0_auto] w-[80%] rounded-b-[15px]'>
-          혈압: {el.bp} <br/>
-          혈당: {el.bst} <br/>
-          키/체중: {el.ht}/{el.bw} (비만도: {( el.bw / ((el.ht / 100) ** 2)).toFixed(2)})
+        <div className='border m-[0_auto] w-[80%] rounded-b-[15px] bg-[#f5f7ff] text-left p-2'>
+          <p className={twMerge(
+            'text-black',
+            sbp >= 140 && 'text-orange-400',
+            sbp >= 160 && 'text-red-600',
+            dbp >= 90 && 'text-orange-400',
+            dbp >= 100 && 'text-red-600'
+
+          )}>혈압: &nbsp;{sbp}/{dbp}
+          </p>
+          <p className={twMerge(
+            'text-black',
+            el.bst >= 100 && 'text-orange-400',
+            el.bst >= 126 && 'text-red-600'
+          )}>공복혈당: &nbsp;{el.bst}</p>
+          <p>키/체중: &nbsp;{el.ht}/{el.bw}&nbsp;
+            <span className={twMerge(
+              'text-black',
+              bmi <= 18.5 && 'text-blue-500',
+              bmi >= 23 && 'text-orange-400',
+              bmi >= 30 && 'text-red-600'
+            )}>(비만도: {bmi})</span></p>
         </div>
       </div>
-    ))}
+      )}))}
       <ListInput setList={setList}/>
     </div>
   )
@@ -89,13 +112,12 @@ const ListInput = ({setList}) => {
           <input ref={bpRef} placeholder='ex: 120/80' className='border w-[200px]'/>
         </div>
         <div className='flex flex-row gap-2'>
-          <p>혈당:</p>
+          <p>공복혈당:</p>
           <input ref={bstRef} placeholder='ex: 100' className='border w-[200px]'/>
         </div>  
         <div className='flex flex-row gap-2'>
           <p>키:</p>
           <input ref={htRef} placeholder='ex: 170' className='border w-[85px]'/>
-          {/*연두: 170cm라고 입력해도 숫자만 주울 수 있게 하기*/}
           <p>&nbsp;체중:</p>
           <input ref={bwRef} placeholder='ex: 70' className='border w-[85px]'/>
         </div>  
