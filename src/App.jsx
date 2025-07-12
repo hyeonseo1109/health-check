@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { BPChart } from './graph';
 import './App.css'
 
 function App() {
@@ -14,12 +15,17 @@ function App() {
 
   return (
     <div  className='flex flex-col bg-[#e3ebff] shadow-[0_0_10px_#adbce1] p-5 rounded-[15px] w-[80%]' >
+      <BPChart data={list} />
       {list.map((el => 
-      <div key={el._id} className='border m-[10px]'>
-        {el.date} <br/>
-        혈압: {el.bp} <br/>
-        혈당: {el.bst} <br/>
-        비만도: {( el.bw / ((el.ht / 100) ** 2)).toFixed(2)}
+      <div key={el._id} className='m-[15px_0]'>
+        <div className='border border-b-0 m-[0_auto] w-[80%] rounded-t-[15px]'>
+          {el.date}
+        </div>
+        <div className='border m-[0_auto] w-[80%] rounded-b-[15px]'>
+          혈압: {el.bp} <br/>
+          혈당: {el.bst} <br/>
+          비만도: {( el.bw / ((el.ht / 100) ** 2)).toFixed(2)}
+        </div>
       </div>
     ))}
       <ListInput setList={setList}/>
@@ -73,7 +79,7 @@ const ListInput = ({setList}) => {
     
     
   return (
-    <div className='flex flex-col justify-center items-center'>
+    <div className='flex flex-col justify-center items-center m-[30px_auto]'>
       <input ref={nameRef} placeholder='성함을 입력하세요.' className='border w-[180px]'/><br/><div className='bg-black h-[1px] w-[80%]'/><br/>
       <div className='flex gap-3 flex-col'>
         <div className='flex flex-row gap-2'>

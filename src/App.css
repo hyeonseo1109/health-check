@@ -6,11 +6,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  overflow: scroll;
 }
 
 html, body, #root {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
 }
 
