@@ -13,20 +13,48 @@ function App() {
   
 
   return (
-    <>
-      {list.map((el => <div key={el._id} className='border m-[10px]'>{el.text}</div>))}
+    <div  className='flex flex-col bg-[#e3ebff] shadow-[0_0_10px_#adbce1] p-5 rounded-[15px] w-[80%]' >
+      {list.map((el => 
+      <div key={el._id} className='border m-[10px]'>
+        {el.date} <br/>
+        혈압: {el.bp} <br/>
+        혈당: {el.bst} <br/>
+        비만도: {( el.bw / ((el.ht / 100) ** 2)).toFixed(2)}
+      </div>
+    ))}
       <ListInput setList={setList}/>
-    </>
+    </div>
   )
 }
 
 const ListInput = ({setList}) => {
-  const inputRef = useRef(null);
+  const nameRef = useRef(null);
+  const bpRef = useRef(null);
+  const bstRef = useRef(null);
+  const htRef = useRef(null);
+  const bwRef = useRef(null);
+
+  function when () {
+      const now = new Date();
+      let year = now.getFullYear().toString().slice(-2);;
+      let month = (now.getMonth()+1).toString().padStart(2, '0');
+      let day = now.getDate().toString().padStart(2, '0');
+      let hour = now.getHours().toString().padStart(2, '0');
+      let min = now.getMinutes().toString().padStart(2, '0');
+      
+      return `${year}/${month}/${day} ${hour}:${min}`;
+    }
 
   const addList = () => {
     const newList = {
-      text: inputRef.current.value,
+      name: nameRef.current.value,
+      bp: bpRef.current.value,
+      bst: bstRef.current.value,
+      ht: htRef.current.value,
+      bw: bwRef.current.value,
+      date: when(),
     };
+
     fetch("http://localhost:1109/api/data", {
       method: "POST",
       headers: {
@@ -36,14 +64,37 @@ const ListInput = ({setList}) => {
     })
     .then((res) => (res.json()))
     .then((res) => setList((prev) => [...prev, res]))
-    inputRef.current.value = ''
+
+    bpRef.current.value = ''
+    bstRef.current.value = ''
+    htRef.current.value = ''
+    bwRef.current.value = ''
   };
+    
+    
   return (
-    <div>
-      <input ref={inputRef} placeholder='ex: 120/80' className='border'/>
-      <button onClick={addList}>+</button>
+    <div className='flex flex-col justify-center items-center'>
+      <input ref={nameRef} placeholder='성함을 입력하세요.' className='border w-[180px]'/><br/><div className='bg-black h-[1px] w-[80%]'/><br/>
+      <div className='flex gap-3 flex-col'>
+        <div className='flex flex-row gap-2'>
+          <p>혈압:</p>
+          <input ref={bpRef} placeholder='ex: 120/80' className='border w-[200px]'/>
+        </div>
+        <div className='flex flex-row gap-2'>
+          <p>혈당:</p>
+          <input ref={bstRef} placeholder='ex: 100' className='border w-[200px]'/>
+        </div>  
+        <div className='flex flex-row gap-2'>
+          <p>키:</p>
+          <input ref={htRef} placeholder='ex: 170' className='border w-[85px]'/>
+          {/*연두: 170cm라고 입력해도 숫자만 주울 수 있게 하기*/}
+          <p>&nbsp;체중:</p>
+          <input ref={bwRef} placeholder='ex: 70' className='border w-[85px]'/>
+        </div>  
+        <button onClick={addList} className='w-[50px] h-[50px] flex justify-center items-center m-auto'>+</button>
+      </div>
     </div>
-  )
+  );
 }
 
 const useFetch = (url) => {
@@ -56,6 +107,7 @@ const useFetch = (url) => {
       setData(res);
     });
   }, [url]);
-  return [data]
+  return [data];
 }
-export default App
+
+export default App;

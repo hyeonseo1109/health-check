@@ -46,7 +46,8 @@ app.post('/api/data', async (req, res) => {
     try {
         const newData = req.body;
         const result = await collection.insertOne(newData);
-        res.json({ status: "success", insertedId: result.insertedId });
+        newData._id = result.insertedId;
+        res.json(newData);
     } catch (e) {
         res.status(500).json({ error: e.message });
     }
