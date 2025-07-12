@@ -25,8 +25,21 @@ function App() {
       const bmi = ( el.bw / ((el.ht / 100) ** 2)).toFixed(2);
       return (
       <div key={el._id} className='m-[15px_0]'>
-        <div className='border border-b-0 m-[0_auto] w-[80%] rounded-t-[15px] bg-[#bfccef] shadow-[0_0_15px_#aebce1]'>
+        <div className='border border-b-0 m-[0_auto] w-[80%] rounded-t-[15px] bg-[#bfccef] shadow-[0_0_15px_#aebce1] items-center justify-around flex'>
           {el.date}
+          <button 
+            onClick={() => {
+              fetch(`http://localhost:1109/api/data/${el._id}`, {
+                method: "DELETE",
+              })
+              .then( (res) => {
+                if (res.ok) {
+                  setList(prev => prev.filter(item => item._id !== el._id))
+                    //내가 택한 것과 아이디가 다른 애들만 남긴다. = 내가 택한 애는 없어진다.
+                }
+              })
+            }}
+            style={{ fontSize: '10px', width: '20px', height: '20px', backgroundColor: '#96a9db', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>-</button>
         </div>
         <div className='border m-[0_auto] w-[80%] rounded-b-[15px] bg-[#f5f7ff] text-left p-2  shadow-[0_0_15px_#aebce1]'>
           <p className={twMerge(
