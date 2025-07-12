@@ -16,7 +16,7 @@ export const BpChart = ({ data }) => {
     const minDiastolic = Math.min(...chartData.map(d => d.diastolic)) - 10;
 
     const ticks = [];
-    for(let i=0; i<=maxSystolic; i+=20) {
+    for(let i=minDiastolic; i<=maxSystolic; i+=20) {
         ticks.push(i);
     }
 
@@ -27,12 +27,13 @@ export const BpChart = ({ data }) => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date"
                             tick={{ fontSize: 15}}
+                            dy={5}
                     />
                     <YAxis domain={[minDiastolic, maxSystolic]} ticks={ticks} />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="systolic" stroke="#f64c4c" name="수축기혈압" label={{ position: 'top', fontSize: 10, fill: '#555' }}/>
-                    <Line type="monotone" dataKey="diastolic" stroke="#4089e1" name="이완기혈압" label={{ position: 'top', fontSize: 10, fill: '#555' }}/>
+                    <Line type="monotone" dataKey="systolic" stroke="#f64c4c" name="수축기혈압" label={{ position: 'top', fontSize: 15, fill: '#888' }}/>
+                    <Line type="monotone" dataKey="diastolic" stroke="#4089e1" name="이완기혈압" label={{ position: 'top', fontSize: 15, fill: '#888' }}/>
                 </LineChart>
             </ResponsiveContainer>
         </div>
@@ -57,7 +58,7 @@ export const BstChart = ({ data }) => {
     const minBst = Math.min(...chartData.map(d => d.bst)) - 20;
 
     const ticks = [];
-    for(let i=0; i<=maxBst; i+=20) {
+    for(let i=minBst; i<=maxBst; i+=20) {
         ticks.push(i);
     }
 
@@ -68,11 +69,12 @@ export const BstChart = ({ data }) => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date"
                             tick={{ fontSize: 15}}
+                            dy={5}
                     />
                     <YAxis domain={[minBst, maxBst]} ticks={ticks} />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="bst" stroke="#259600" name="혈당" label={{ position: 'top', fontSize: 10, fill: '#555' }}/>
+                    <Line type="monotone" dataKey="bst" stroke="#259600" name="혈당" label={{ position: 'top', fontSize: 15, fill: '#888' }}/>
                 </LineChart>
             </ResponsiveContainer>
         </div>
@@ -88,8 +90,8 @@ export const BwChart = ({ data }) => {
         };
     });
 
-    const maxBw = Math.max(...chartData.map(d => d.bw)) + 1;
-    const minBw = Math.min(...chartData.map(d => d.bw)) - 1;
+    const maxBw = Math.max(...chartData.map(d => d.bw)) + 10;
+    const minBw = Math.min(...chartData.map(d => d.bw)) - 10;
     // const maxY = Math.ceil(maxBw *10) / 10;
     // const minY = Math.floor(minBw *10) / 10;
 
@@ -105,11 +107,12 @@ export const BwChart = ({ data }) => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" 
                             tick={{ fontSize: 15}}
+                            dy={5}
                     />
                     <YAxis domain={[minBw, maxBw]} ticks={ticks} />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="bw" stroke="#c92de4" name="체중" label={{ position: 'top', fontSize: 10, fill: '#555' }}/>
+                    <Line type="monotone" dataKey="bw" stroke="#c92de4" name="체중" label={{ position: 'top', fontSize: 15, fill: '#888' }}/>
                 </LineChart>
             </ResponsiveContainer>
         </div>
