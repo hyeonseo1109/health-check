@@ -3,7 +3,7 @@ import './App.css'
 
 function App() {
   const [list, setList] = useState([]);
-  const [data] = useFetch("http://localhost:3000/content");
+  const [data] = useFetch("http://localhost:1109/api/data");
 
   useEffect( () => {
     if (data) {
@@ -14,7 +14,7 @@ function App() {
 
   return (
     <>
-      {list.map((el => <div className='border m-[10px]'>{el.text}</div>))}
+      {list.map((el => <div key={el._id} className='border m-[10px]'>{el.text}</div>))}
       <ListInput setList={setList}/>
     </>
   )
@@ -27,7 +27,7 @@ const ListInput = ({setList}) => {
     const newList = {
       text: inputRef.current.value,
     };
-    fetch("http://localhost:3000/content", {
+    fetch("http://localhost:1109/api/data", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
