@@ -16,14 +16,13 @@ function App() {
   }, [data])
   
 
-  const filteredList = name ? list.filter(el => el.name === name) : list;
+  const filteredList = name ? list.filter(el => el.name === name) : [];
 
   return (
     <div  className='flex flex-col bg-[#e3ebff] shadow-[0_0_15px_#adbce1] p-5 rounded-[15px] w-[80%] itmes-center' >
-      <BpChart data={filteredList} /> <div className='w-full h-[1px] bg-black m-[40px_0]'/>
-      <BstChart data={filteredList} /> <div className='w-full h-[1px] bg-black m-[40px_0]'/>
-      <BwChart data={filteredList} />
-      {filteredList.map((el => {
+      
+      { !name && <p className="text-center text-gray-600 mt-10">성함을 입력해주세요.</p> }
+      { name && filteredList.map((el => {
         console.log(el._id);//___
         const [sbp, dbp] = el.bp.split('/').map(Number);
         const bmi = ( el.bw / ((el.ht / 100) ** 2)).toFixed(2);
@@ -73,8 +72,13 @@ function App() {
           </div>
         </div>
       )}))}
+      
 
       <ListInput setList={setList} name={name} setName={setName} />
+      <div className='w-full h-[1px] bg-black m-[40px_0]'/>
+      <BpChart data={filteredList} /> <div className='w-full h-[1px] bg-[#c9cdff] m-[40px_0]'/>
+      <BstChart data={filteredList} /> <div className='w-full h-[1px] bg-[#c9cdff] m-[40px_0]'/>
+      <BwChart data={filteredList} />
     </div>
   )
 }
@@ -135,22 +139,22 @@ const ListInput = ({setList, name, setName }) => {
         ref={nameRef} 
         value={name}
         onChange={onNameChange}
-        placeholder='성함을 입력하세요.' className='border w-[180px]'/>
+        placeholder='예:  홍길동' className='border w-[180px]'/>
       <br/><div className='bg-black h-[1px] w-[80%]'/><br/>
       <div className='flex gap-3 flex-col'>
         <div className='flex flex-row gap-2 justify-between'>
           <p>혈압:</p>
-          <input ref={bpRef} placeholder='ex: 120/80' className='border w-[200px]'/>
+          <input ref={bpRef} placeholder='예:  120/80' className='border w-[200px]'/>
         </div>
         <div className='flex flex-row gap-2 justify-between'>
           <p>공복혈당:</p>
-          <input ref={bstRef} placeholder='ex: 100' className='border w-[200px]'/>
+          <input ref={bstRef} placeholder='예:  100' className='border w-[200px]'/>
         </div>  
         <div className='flex flex-row gap-2 justify-between'>
           <p>키:</p>
-          <input ref={htRef} placeholder='ex: 170' className='border w-[85px]'/>
+          <input ref={htRef} placeholder='예:  170' className='border w-[85px]'/>
           <p>&nbsp;체중:</p>
-          <input ref={bwRef} placeholder='ex: 70' className='border w-[85px]'/>
+          <input ref={bwRef} placeholder='예:  70' className='border w-[85px]'/>
         </div>  
         <button onClick={addList} className='w-[50px] h-[50px] flex justify-center items-center m-[20px_auto] shadow-[0_0_15px_#aebce1]'>+</button>
       </div>
