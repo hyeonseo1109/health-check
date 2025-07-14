@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const app = express();
 const PORT = 1109;
 
@@ -52,6 +53,28 @@ app.post('/api/data', async (req, res) => {
         res.status(500).json({ error: e.message });
     }
 });
+
+// 데이터 삭제 API
+app.delete('/api/data/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        // 문자열 id → MongoDB의 ObjectId 타입으로 변환
+        const result = await collection.deleteOne({ _id: new ObjectId(id) });
+
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: "Document not found" });
+        }
+
+        res.status(200).json({ message: "Deleted successfully" });
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
+});
+
+
+
+
 
 // 서버 실행 전에 DB 연결
 connectDB().then(() => {
