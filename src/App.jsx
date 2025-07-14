@@ -7,6 +7,7 @@ import { twMerge } from 'tailwind-merge';
 function App() {
   const [list, setList] = useState([]);
   const [data] = useFetch("http://localhost:1109/api/data");
+  const [name, setName] = useState('');
 
   useEffect( () => {
     if (data) {
@@ -15,12 +16,14 @@ function App() {
   }, [data])
   
 
+  const filteredList = name ? list.filter(el => el.name === name) : list;
+
   return (
     <div  className='flex flex-col bg-[#e3ebff] shadow-[0_0_15px_#adbce1] p-5 rounded-[15px] w-[80%] itmes-center' >
-      <BpChart data={list} /> <div className='w-full h-[1px] bg-black m-[40px_0]'/>
-      <BstChart data={list} /> <div className='w-full h-[1px] bg-black m-[40px_0]'/>
-      <BwChart data={list} />
-      {list.map((el => {
+      <BpChart data={filteredList} /> <div className='w-full h-[1px] bg-black m-[40px_0]'/>
+      <BstChart data={filteredList} /> <div className='w-full h-[1px] bg-black m-[40px_0]'/>
+      <BwChart data={filteredList} />
+      {filteredList.map((el => {
         console.log(el._id);//___
         const [sbp, dbp] = el.bp.split('/').map(Number);
         const bmi = ( el.bw / ((el.ht / 100) ** 2)).toFixed(2);
@@ -28,6 +31,7 @@ function App() {
         <div key={el._id} className='m-[15px_0]'>
           <div className='border border-b-0 m-[0_auto] w-[80%] rounded-t-[15px] bg-[#bfccef] shadow-[0_0_15px_#aebce1] items-center justify-around flex'>
             {el.date}
+            {/* ~~~~~~~~~~~~삭제하기~~~~~~~~~~~~ */}
             <button 
               onClick={() => {
                 fetch(`http://localhost:1109/api/data/${el._id}`, {
@@ -43,6 +47,7 @@ function App() {
               }}
               style={{ fontSize: '10px', width: '20px', height: '20px', backgroundColor: '#96a9db', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>-</button>
           </div>
+          
           <div className='border m-[0_auto] w-[80%] rounded-b-[15px] bg-[#f5f7ff] text-left p-2  shadow-[0_0_15px_#aebce1]'>
             <p className={twMerge(
               'text-black',
@@ -68,12 +73,13 @@ function App() {
           </div>
         </div>
       )}))}
-      <ListInput setList={setList}/>
+
+      <ListInput setList={setList} name={name} setName={setName} />
     </div>
   )
 }
 
-const ListInput = ({setList}) => {
+const ListInput = ({setList, name, setName }) => {
   const nameRef = useRef(null);
   const bpRef = useRef(null);
   const bstRef = useRef(null);
@@ -90,6 +96,11 @@ const ListInput = ({setList}) => {
       
       return `${year}/${month}/${day} ${hour}:${min}`;
     }
+  
+  //이름 바꾸면 상태 업데이트
+  const onNameChange = (e) => {
+    setName(e.target.value);
+  };
 
   const addList = () => {
     const newList = {
@@ -120,7 +131,12 @@ const ListInput = ({setList}) => {
     
   return (
     <div className='flex flex-col justify-center items-center m-[30px_auto]'>
-      <input ref={nameRef} placeholder='성함을 입력하세요.' className='border w-[180px]'/><br/><div className='bg-black h-[1px] w-[80%]'/><br/>
+      <input 
+        ref={nameRef} 
+        value={name}
+        onChange={onNameChange}
+        placeholder='성함을 입력하세요.' className='border w-[180px]'/>
+      <br/><div className='bg-black h-[1px] w-[80%]'/><br/>
       <div className='flex gap-3 flex-col'>
         <div className='flex flex-row gap-2 justify-between'>
           <p>혈압:</p>
