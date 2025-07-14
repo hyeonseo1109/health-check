@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from 'react'
 import { BpChart, BstChart, BwChart } from './graph';
 import './App.css';
 import { twMerge } from 'tailwind-merge';
+import { BpTable, BstTable, BwTable } from './table';
+import { Terms } from './terms';
 
 
 function App() {
@@ -52,15 +54,18 @@ function App() {
               'text-black',
               sbp >= 140 && 'text-orange-400',
               sbp >= 160 && 'text-red-600',
+              sbp <= 90 && 'text-blue-500',
               dbp >= 90 && 'text-orange-400',
-              dbp >= 100 && 'text-red-600'
+              dbp >= 100 && 'text-red-600',
+              dbp <= 60 && 'text-blue-500'
 
             )}>혈압: &nbsp;{sbp}/{dbp}
             </p>
             <p className={twMerge(
               'text-black',
               el.bst >= 100 && 'text-orange-400',
-              el.bst >= 126 && 'text-red-600'
+              el.bst >= 126 && 'text-red-600',
+              el.bst <= 70 && 'text-blue-500'
             )}>공복혈당: &nbsp;{el.bst}</p>
             <p>키/체중: &nbsp;{el.ht}/{el.bw}&nbsp;
               <span className={twMerge(
@@ -78,7 +83,13 @@ function App() {
       <div className='w-full h-[1px] bg-black m-[40px_0]'/>
       <BpChart data={filteredList} /> <div className='w-full h-[1px] bg-[#c9cdff] m-[40px_0]'/>
       <BstChart data={filteredList} /> <div className='w-full h-[1px] bg-[#c9cdff] m-[40px_0]'/>
-      <BwChart data={filteredList} />
+      <BwChart data={filteredList} /> <br/><br/><br/>
+      <div className='w-full h-[1px] bg-black m-[40px_0]'/> <br/>
+      <p className="text-red-600 font-bold">정상수치</p><br/>
+      <BpTable /> <br/>
+      <BstTable /> <br />
+      <BwTable /> <br/><br/>
+      <Terms />
     </div>
   )
 }
@@ -139,23 +150,48 @@ const ListInput = ({setList, name, setName }) => {
         ref={nameRef} 
         value={name}
         onChange={onNameChange}
-        placeholder='예:  홍길동' className='border w-[180px]'/>
-      <br/><div className='bg-black h-[1px] w-[80%]'/><br/>
+        placeholder='예:  홍길동' className='border w-[180px] bg-[#ffffff9d]'/>
+      <br/>
+      <div className='bg-black h-[1px] w-[80%]'/><br/>
+      
       <div className='flex gap-3 flex-col'>
         <div className='flex flex-row gap-2 justify-between'>
           <p>혈압:</p>
-          <input ref={bpRef} placeholder='예:  120/80' className='border w-[200px]'/>
+          <input 
+            ref={bpRef} 
+            placeholder='예:  120/80' 
+            className='border w-[200px]
+            bg-[#ffffff9d]
+          '/>
         </div>
+
         <div className='flex flex-row gap-2 justify-between'>
           <p>공복혈당:</p>
-          <input ref={bstRef} placeholder='예:  100' className='border w-[200px]'/>
+          <input 
+            ref={bstRef} 
+            placeholder='예:  100' 
+            className='border w-[200px]
+            bg-[#ffffff9d]
+            '/>
         </div>  
+
         <div className='flex flex-row gap-2 justify-between'>
           <p>키:</p>
-          <input ref={htRef} placeholder='예:  170' className='border w-[85px]'/>
+          <input 
+            ref={htRef} 
+            placeholder='예:  170' 
+            className='border w-[85px]
+            bg-[#ffffff9d]
+            '/>
           <p>&nbsp;체중:</p>
-          <input ref={bwRef} placeholder='예:  70' className='border w-[85px]'/>
+          <input 
+            ref={bwRef} 
+            placeholder='예:  70' 
+            className='border w-[85px]
+            bg-[#ffffff9d]
+            '/>
         </div>  
+
         <button onClick={addList} className='w-[50px] h-[50px] flex justify-center items-center m-[20px_auto] shadow-[0_0_15px_#aebce1]'>+</button>
       </div>
     </div>
