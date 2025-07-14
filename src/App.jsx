@@ -52,12 +52,13 @@ function App() {
           <div className='border m-[0_auto] w-[80%] rounded-b-[15px] bg-[#f5f7ff] text-left p-2  shadow-[0_0_15px_#aebce1]'>
             <p className={twMerge(
               'text-black',
-              sbp >= 140 && 'text-orange-400',
-              sbp >= 160 && 'text-red-600',
-              sbp <= 90 && 'text-blue-500',
               dbp >= 90 && 'text-orange-400',
               dbp >= 100 && 'text-red-600',
-              dbp <= 60 && 'text-blue-500'
+              dbp <= 60 && 'text-blue-500',
+              sbp >= 140 && 'text-orange-400',
+              sbp >= 160 && 'text-red-600',
+              sbp <= 90 && 'text-blue-500'
+            
 
             )}>혈압: &nbsp;{sbp}/{dbp}
             </p>

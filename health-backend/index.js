@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const { MongoClient } = require('mongodb');
@@ -9,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB 연결 문자열
-const uri = "REMOVED&appName=health-check";
+const uri = process.env.MONGO_URI;
 
 // MongoClient 인스턴스 생성
 const client = new MongoClient(uri);
