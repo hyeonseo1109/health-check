@@ -8,7 +8,7 @@ import { Terms } from './terms';
 
 function App() {
   const [list, setList] = useState([]);
-  const [data] = useFetch("http://localhost:1109/api/data");
+  const [data] = useFetch("https://health-check-mrer.onrender.com/api/data");
   const [name, setName] = useState('');
 
   useEffect( () => {
@@ -35,7 +35,7 @@ function App() {
             {/* ~~~~~~~~~~~~삭제하기~~~~~~~~~~~~ */}
             <button 
               onClick={() => {
-                fetch(`http://localhost:1109/api/data/${el._id}`, {
+                fetch(`https://health-check-mrer.onrender.com/api/data/${el._id}`, {
                   method: "DELETE",
                 })
                 .then( (res) => {
@@ -128,7 +128,7 @@ const ListInput = ({setList, name, setName }) => {
       date: when(),
     };
 
-    fetch("http://localhost:1109/api/data", {
+    fetch("https://health-check-mrer.onrender.com/api/data", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
