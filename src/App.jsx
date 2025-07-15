@@ -55,11 +55,7 @@ function App() {
             {/* ~~~~~~~~~~~~삭제하기~~~~~~~~~~~~ */}
             <button 
               onClick={() => {
-<<<<<<< HEAD
-                fetch(`https://health-check-mrer.onrender.com/api/data/${el._id}`, {
-=======
                 fetch(`${onrender}/${el._id}`, {
->>>>>>> 9203706 (버그 캐치 추가)
                   method: "DELETE",
                 })
                 .then( (res) => {
@@ -152,11 +148,7 @@ const ListInput = ({setList, name, setName }) => {
       date: when(),
     };
 
-<<<<<<< HEAD
-    fetch("https://health-check-mrer.onrender.com/api/data", {
-=======
     fetch(`${onrender}`, {
->>>>>>> 9203706 (버그 캐치 추가)
       method: "POST",
       headers: {
         "Content-Type": "application/json",
