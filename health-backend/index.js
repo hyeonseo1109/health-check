@@ -8,6 +8,13 @@ const app = express();
 const PORT = 1109;
 
 app.use(cors());
+
+// const corsOptions = {
+//     origin: 'https://health-check-zeta.vercel.app/',  
+//     credentials: true,
+// };
+// app.use(cors(corsOptions));
+
 app.use(express.json());
 
 // MongoDB 연결 문자열
@@ -36,6 +43,11 @@ app.get('/', (req, res) => {
 
 // 모든 데이터 가져오기 API
 app.get('/api/data', async (req, res) => {
+    if (!collection) {
+        console.error("collection이 아직 초기화되지 않았습니다.");
+        return res.status(503).json({ error: 'Database not connected yet. Try again shortly.' });
+    }
+
     try {
         const data = await collection.find({}).toArray();
         res.json(data);
@@ -46,6 +58,10 @@ app.get('/api/data', async (req, res) => {
 
 // 데이터 추가 API
 app.post('/api/data', async (req, res) => {
+    if (!collection) {
+        return res.status(503).json({ error: 'Database not connected yet. Try again shortly.' });
+    }
+
     try {
         const newData = req.body;
         const result = await collection.insertOne(newData);
@@ -58,10 +74,12 @@ app.post('/api/data', async (req, res) => {
 
 // 데이터 삭제 API
 app.delete('/api/data/:id', async (req, res) => {
+    if (!collection) {
+        return res.status(503).json({ error: 'Database not connected yet. Try again shortly.' });
+    }
+
     try {
         const id = req.params.id;
-
-        // 문자열 id → MongoDB의 ObjectId 타입으로 변환
         const result = await collection.deleteOne({ _id: new ObjectId(id) });
 
         if (result.deletedCount === 0) {
@@ -73,7 +91,6 @@ app.delete('/api/data/:id', async (req, res) => {
         res.status(500).json({ error: e.message });
     }
 });
-
 
 
 

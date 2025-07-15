@@ -5,10 +5,13 @@ import { twMerge } from 'tailwind-merge';
 import { BpTable, BstTable, BwTable } from './table';
 import { Terms } from './terms';
 
+const onrender = "https://health-check-mrer.onrender.com/api/data";
+// const mongo = "http://localhost:1109/api/data";
 
 function App() {
   const [list, setList] = useState([]);
-  const [data] = useFetch("https://health-check-mrer.onrender.com/api/data");
+  // const [data] = useFetch(`${mongo}`);
+  const [data, error] = useFetch(`${onrender}`);
   const [name, setName] = useState('');
 
   useEffect( () => {
@@ -20,11 +23,28 @@ function App() {
 
   const filteredList = name ? list.filter(el => el.name === name) : [];
 
+  if (error) {
+    return (
+      <div className="text-red-600 text-center mt-10">
+        데이터를 불러오는 중 오류가 발생했습니다: {error.message}
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="text-gray-600 text-center mt-10">
+        데이터를 불러오는 중입니다...
+      </div>
+    );
+  }
+
   return (
     <div  className='flex flex-col bg-[#e3ebff] shadow-[0_0_15px_#adbce1] p-5 rounded-[15px] w-[80%] itmes-center' >
       
       { !name && <p className="text-center text-gray-600 mt-10">성함을 입력해주세요.</p> }
       { name && filteredList.map((el => {
+        if (!el.bp || !el.bp.includes('/')) return null;
         console.log(el._id);//___
         const [sbp, dbp] = el.bp.split('/').map(Number);
         const bmi = ( el.bw / ((el.ht / 100) ** 2)).toFixed(2);
@@ -35,7 +55,11 @@ function App() {
             {/* ~~~~~~~~~~~~삭제하기~~~~~~~~~~~~ */}
             <button 
               onClick={() => {
+<<<<<<< HEAD
                 fetch(`https://health-check-mrer.onrender.com/api/data/${el._id}`, {
+=======
+                fetch(`${onrender}/${el._id}`, {
+>>>>>>> 9203706 (버그 캐치 추가)
                   method: "DELETE",
                 })
                 .then( (res) => {
@@ -128,7 +152,11 @@ const ListInput = ({setList, name, setName }) => {
       date: when(),
     };
 
+<<<<<<< HEAD
     fetch("https://health-check-mrer.onrender.com/api/data", {
+=======
+    fetch(`${onrender}`, {
+>>>>>>> 9203706 (버그 캐치 추가)
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -201,15 +229,22 @@ const ListInput = ({setList, name, setName }) => {
 
 const useFetch = (url) => {
   const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect( () => {
     fetch(url)
-    .then((res) => res.json())
+    .then((res) => {
+      if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+      return res.json()})
     .then((res)=> {
       setData(res);
+    })
+    .catch((err) => {
+        console.error("데이터 fetch 중 에러:", err);
+        setError(err);
     });
   }, [url]);
-  return [data];
+  return [data, error];
 }
 
 export default App;
