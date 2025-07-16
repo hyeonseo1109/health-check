@@ -41,8 +41,9 @@ function App() {
 
   return (
     <div  className='flex flex-col bg-[#e3ebff] shadow-[0_0_15px_#adbce1] p-5 rounded-[15px] w-[80%] itmes-center' >
-      
       { !name && <p className="text-center text-gray-600 mt-10">성함을 입력해주세요.</p> }
+      <ListInput setList={setList} name={name} setName={setName} />
+      
       { name && filteredList.map((el => {
         if (!el.bp || !el.bp.includes('/')) return null;
         console.log(el._id);//___
@@ -100,7 +101,7 @@ function App() {
       )}))}
       
 
-      <ListInput setList={setList} name={name} setName={setName} />
+      
       <div className='w-full h-[1px] bg-black m-[40px_0]'/>
       <BpChart data={filteredList} /> <div className='w-full h-[1px] bg-[#c9cdff] m-[40px_0]'/>
       <BstChart data={filteredList} /> <div className='w-full h-[1px] bg-[#c9cdff] m-[40px_0]'/>
