@@ -102,25 +102,27 @@
 //     });
 // });
 
-
 require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
 const { MongoClient, ObjectId } = require('mongodb');
+
 const app = express();
-const PORT = process.env.PORT || 1109; // Render 환경 대응
+const PORT = process.env.PORT || 1109;
 
 app.use(cors());
 app.use(express.json());
 
 const uri = process.env.MONGO_URI;
+if (!uri) {
+    console.error('❌ MONGO_URI가 설정되지 않았습니다. .env 파일 또는 Render 환경 변수 확인 필요');
+    process.exit(1);
+}
 const client = new MongoClient(uri);
 
-let collection;
+let collection = null;
 
-// ✅ 라우트 정의는 listen 전에 해도 괜찮지만,
-//    collection이 null일 수 있으므로 모든 라우트에서 체크 필요
 app.get('/', (req, res) => {
     res.send('✧*｡٩(ˊᗜˋ*)و✧*｡');
 });
@@ -165,21 +167,20 @@ app.delete('/api/data/:id', async (req, res) => {
     }
 });
 
-
-// ✅ 서버는 DB 연결 완료 후에만 시작되게!
 async function startServer() {
     try {
+        console.log('🔗 MongoDB 연결 시도 중...');
         await client.connect();
         const db = client.db('healthCheckDB');
         collection = db.collection('contents');
-        console.log('✅ MongoDB connected');
+        console.log('✅ MongoDB 연결 성공');
 
         app.listen(PORT, () => {
-            console.log(`🚀 Server is running on port ${PORT}`);
+            console.log(`🚀 서버가 포트 ${PORT}에서 실행 중`);
         });
     } catch (err) {
-        console.error('❌ DB connection failed:', err);
-        process.exit(1); // 서버 강제 종료
+        console.error('❌ DB 연결 실패:', err);
+        process.exit(1);
     }
 }
 
