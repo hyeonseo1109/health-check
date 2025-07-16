@@ -164,6 +164,30 @@ const ListInput = ({setList, name, setName }) => {
     htRef.current.value = ''
     bwRef.current.value = ''
   };
+  
+  const alert = () => {
+    if(!nameRef.current.value) {
+      window.alert('성함을 입력해주세요!')
+      return false;
+    }
+    if(!bpRef.current.value) {
+      window.alert('혈압을 입력해주세요!')
+      return false;
+    }
+    if(!bstRef.current.value) {
+      window.alert('혈당을 입력해주세요!')
+      return false;
+    }
+    if(!htRef.current.value) {
+      window.alert('키를 입력해주세요!')
+      return false;
+    }
+    if(!bwRef.current.value) {
+      window.alert('체중을 입력해주세요!')
+      return false;
+    }
+    return true;
+  }
     
     
   return (
@@ -214,7 +238,11 @@ const ListInput = ({setList, name, setName }) => {
             '/>
         </div>  
 
-        <button onClick={addList} className='w-[50px] h-[50px] flex justify-center items-center m-[20px_auto] shadow-[0_0_15px_#aebce1]'>+</button>
+        <button onClick={() => {
+          if(alert()) {
+            addList();
+          }
+          }} className='w-[50px] h-[50px] flex justify-center items-center m-[20px_auto] shadow-[0_0_15px_#aebce1]'>+</button>
       </div>
     </div>
   );
