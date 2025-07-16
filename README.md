@@ -10,8 +10,8 @@
 - BMI지수(비만도)를 자동으로 계산함
 - 과거의 기록 변화를 그래프로 보여줌
 
-<hr/>
-<br/>
+
+------------------------
 - React: 프론트엔드 UI
 - Express + MongoDB Atlas : 백엔드/데이터베이스
 - Tailwind Css
