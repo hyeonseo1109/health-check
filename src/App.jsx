@@ -40,7 +40,7 @@ function App() {
   }
 
   return (
-    <div  className='flex flex-col bg-[#e3ebff] shadow-[0_0_15px_#adbce1] p-5 rounded-[15px] w-[80%] itmes-center' >
+    <div  className='flex flex-col bg-[#e3ebff] shadow-[0_0_15px_#adbce1] p-5 rounded-[15px] w-full sm:w-[80%] itmes-center' >
       { !name && <p className="text-center text-gray-600 mt-10">성함을 입력해주세요.</p> }
       <ListInput setList={setList} name={name} setName={setName} />
       
