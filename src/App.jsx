@@ -242,7 +242,7 @@ const ListInput = ({setList, name, setName }) => {
           if(alert()) {
             addList();
           }
-          }} className='w-[50px] h-[50px] flex justify-center items-center m-[20px_auto] shadow-[0_0_15px_#aebce1]'>+</button>
+          }} className='w-[50px] h-[50px] flex justify-center items-center m-[20px_auto] shadow-[0_0_15px_#aebce1] bg-white'>+</button>
       </div>
     </div>
   );
