@@ -1,12 +1,22 @@
-# React + Vite
+# 건강기록지
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+혈압과 혈당, 키/체중을 입력하여 저장하고, 과거와 현재의 기록을 차트로 보여줍니다.
 
-Currently, two official plugins are available:
+--첫 렌더링 시, 데이터 로딩으로 인해 시간이 다소 소요될 수 있습니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## 주요 기능
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- 이름, 혈압, 혈당, 키, 체중 입력하여 데이터 추가/삭제 가능함
+- 이름을 입력하여 데이터를 조회함
+- BMI지수(비만도)를 자동으로 계산함
+- 과거의 기록 변화를 그래프로 보여줌
+
+
+------------------------
+- React: 프론트엔드 UI
+- Express + MongoDB Atlas : 백엔드/데이터베이스
+- Tailwind Css
+- Chart.js : 그래프
+- Render Dashboard : 백엔드 서버 배포
+- Vercel : 앱 배포
